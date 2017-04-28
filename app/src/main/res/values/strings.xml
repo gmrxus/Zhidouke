@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">知豆壳</string>
+    <string name="main_page">首页</string>
+    <string name="collect">收藏</string>
+    <string name="chose_theme">切换主题</string>
+    <string name="setting">设置</string>
+    <string name="about">关于</string>
+    <string name="another_setting">其他设置</string>
+    <string name="draw_close">关闭</string>
+    <string name="draw_open">打开</string>
+</resources>

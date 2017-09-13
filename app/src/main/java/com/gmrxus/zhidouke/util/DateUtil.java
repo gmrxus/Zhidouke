@@ -81,6 +81,36 @@ public class DateUtil {
             e.printStackTrace();
         }
         return dateStr;
+    }
 
+    /**
+     * 豆瓣时间格式
+     *
+     * @param date
+     * @return
+     */
+    public static String doubanDate(long date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String format = simpleDateFormat.format(new Date(date));
+        return format;
+    }
+
+    /**
+     * 豆瓣 前一天
+     *
+     * @param thisDate
+     * @return
+     */
+    public static String lastDateDouban(String thisDate) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String result = "";
+        try {
+            Date parse = format.parse(thisDate);
+            Date date = new Date(parse.getTime() - 1000 * 60 * 60 * 24);
+            result = format.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }

@@ -39,6 +39,12 @@ public class HttpUtils {
         }
     }
 
+    /**
+     * 异步 get请求
+     *
+     * @param url
+     * @param listener
+     */
     public static void getY(String url, final OnHttpRequestCallBackListener listener) {
         final Request request = new Request.Builder().get().url(url).build();
         Call call = mClient.newCall(request);

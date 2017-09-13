@@ -19,6 +19,12 @@ public class DBUtil extends SQLiteOpenHelper {
             "date text unique," +//唯一字段
             "getTime text" +
             ")";
+    private String createDouabnSql="create table Douban(" +
+            "id integer primary key autoincrement," +
+            "content text," +
+            "date text unique," +//唯一字段
+            "getTime text" +
+            ")";
 
     public DBUtil(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -30,6 +36,7 @@ public class DBUtil extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(createZhiHuSql);
+        db.execSQL(createDouabnSql);
 
     }
 

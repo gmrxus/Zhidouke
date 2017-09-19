@@ -18,11 +18,10 @@ public interface ZhihuContract {
 
         void showContent(List<ZhihuNews> zhihuNewses);
 
-        void showError();
+        void showError(String msg);
 
         void showProgress();
 
-        void hideProgress();
 
         void stopRefresh();
 

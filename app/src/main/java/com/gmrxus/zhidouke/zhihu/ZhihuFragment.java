@@ -1,6 +1,7 @@
 package com.gmrxus.zhidouke.zhihu;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -17,7 +18,7 @@ import com.gmrxus.zhidouke.R;
 import com.gmrxus.zhidouke.adapter.MainRecyclerViewAdapter;
 import com.gmrxus.zhidouke.bean.ZhihuNews;
 import com.gmrxus.zhidouke.util.DateUtil;
-import com.gmrxus.zhidouke.zhihu.listener.EndlessOnScrollListener;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -59,33 +60,33 @@ public class ZhihuFragment extends Fragment implements ZhihuContract.View, Swipe
     final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
     mRecyclerView.setHasFixedSize(true);
     mRecyclerView.setLayoutManager(linearLayoutManager);
-//    mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//      @Override
-//      public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//        super.onScrollStateChanged(recyclerView, newState);
-//        LinearLayoutManager lm = (LinearLayoutManager) recyclerView.getLayoutManager();
-//        int lastItemPosition = lm.findLastVisibleItemPosition();
-//        if (lastItemPosition == mAdapter.getItemCount() - 1 && newState == RecyclerView.SCROLL_STATE_IDLE) {
-//          mNonceDate = DateUtil.getLastDate(mNonceDate);
-//          mPresenter.loadMore(mNonceDate);
-//        }
-//      }
-//
-//      @Override
-//      public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//        super.onScrolled(recyclerView, dx, dy);
-//        if (dy < 0) {
-//        }
-//      }
-//    });
-
-    mRecyclerView.addOnScrollListener(new EndlessOnScrollListener(linearLayoutManager) {
+    mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
       @Override
-      public void onLoadMore(int currentPage) {
-        mNonceDate = DateUtil.getLastDate(mNonceDate);
-        mPresenter.loadMore(mNonceDate);
+      public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+        super.onScrollStateChanged(recyclerView, newState);
+        LinearLayoutManager lm = (LinearLayoutManager) recyclerView.getLayoutManager();
+        int lastItemPosition = lm.findLastVisibleItemPosition();
+        if (lastItemPosition == mAdapter.getItemCount() - 1 && newState == RecyclerView.SCROLL_STATE_IDLE) {
+          mNonceDate = DateUtil.getLastDate(mNonceDate);
+          new CountDownTimer(500, 500) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+            }
+
+            @Override
+            public void onFinish() {
+              mPresenter.loadMore(mNonceDate);
+            }
+          }.start();
+        }
+      }
+
+      @Override
+      public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+        super.onScrolled(recyclerView, dx, dy);
       }
     });
+
     mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.srl);
     mSwipeRefreshLayout.setColorSchemeResources(
         R.color.colorAccent,
@@ -97,12 +98,9 @@ public class ZhihuFragment extends Fragment implements ZhihuContract.View, Swipe
 
   @Override
   public void onRefresh() {
-//    mAdapter.refresh();
-//    String zhihuUrlDate = DateUtil.getZhihuUrlDate();
-//    mNonceDate = zhihuUrlDate;
-//    mPresenter.load(zhihuUrlDate, true);
     String zhihuUrlDate = DateUtil.getZhihuUrlDate();
     mNonceDate = zhihuUrlDate;
+    showProgress();
     mPresenter.load(mNonceDate, true);
   }
 
@@ -120,7 +118,14 @@ public class ZhihuFragment extends Fragment implements ZhihuContract.View, Swipe
   public void showContent(List<ZhihuNews> zhihuNewses) {
     if (mAdapter == null) {
       mAdapter = new MainRecyclerViewAdapter(getContext(), zhihuNewses);
+      mAdapter.setOnItemClickListener(new MainRecyclerViewAdapter.OnItemClickListener() {
+        @Override
+        public void onItemClick(View view, int position) {
+          Logger.e(position+"");
+        }
+      });
       mRecyclerView.setAdapter(mAdapter);
+
     } else {
       mAdapter.addContent(zhihuNewses);
       mAdapter.notifyDataSetChanged();
@@ -128,19 +133,15 @@ public class ZhihuFragment extends Fragment implements ZhihuContract.View, Swipe
   }
 
   @Override
-  public void showError() {
-    Snackbar.make(mLinearLayout, "错误", Snackbar.LENGTH_SHORT).show();
+  public void showError(String msg) {
+    Snackbar.make(mLinearLayout, msg, Snackbar.LENGTH_SHORT).show();
   }
 
   @Override
   public void showProgress() {
-
+    mSwipeRefreshLayout.setRefreshing(true);
   }
 
-  @Override
-  public void hideProgress() {
-
-  }
 
   @Override
   public void stopRefresh() {

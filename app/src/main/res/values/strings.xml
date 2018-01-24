@@ -1,11 +1,32 @@
 <resources>
     <string name="app_name">知豆壳</string>
     <string name="main_page">首页</string>
-    <string name="collect">收藏</string>
+    <string name="bookmark">收藏</string>
     <string name="chose_theme">切换主题</string>
     <string name="setting">设置</string>
     <string name="about">关于</string>
     <string name="another_setting">其他设置</string>
     <string name="draw_close">关闭</string>
     <string name="draw_open">打开</string>
+    <string name="today_news">今日热文</string>
+    <string name="more">更多</string>
+    <string name="action_add_to_bookmarks">添加到收藏</string>
+    <string name="action_copy_link">复制链接</string>
+    <string name="action_open_in_browser">在浏览器中打开</string>
+    <string name="action_copy_text">复制文本内容</string>
+    <string name="action_share_as_text">作为文本分享</string>
+    <string name="delBookmark">从收藏中删除</string>
+    <string name="zhihu">知乎日报</string>
+    <string name="douban">豆瓣一刻</string>
+    <string name="guoke">果壳精选</string>
+    <string name="base_settings">基础设置</string>
+    <string name="settings_no_img_explain">无图模式浏览更省流量</string>
+    <string name="settings_no_img">无图模式</string>
+    <string name="setting_inlay_browser_explain">用内置浏览器打开应用内的链接</string>
+    <string name="setting_inlay_browser">使用内置浏览器</string>
+    <string name="other_settings">其他设置</string>
+    <string name="settings_clear_img_cache">清除图片缓存</string>
+    <string name="clear_image_cache">图片缓存已清除</string>
+
+
 </resources>

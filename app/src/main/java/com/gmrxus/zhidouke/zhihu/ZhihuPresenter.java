@@ -50,10 +50,6 @@ public class ZhihuPresenter implements ZhihuContract.Presenter {
     this.mView = view;
   }
 
-  @Override
-  public void refresh() {
-
-  }
 
   @Override
   public void loadMore(String date) {
@@ -114,6 +110,7 @@ public class ZhihuPresenter implements ZhihuContract.Presenter {
   public void deAttach() {
     mView = null;
   }
+
 }
 
 

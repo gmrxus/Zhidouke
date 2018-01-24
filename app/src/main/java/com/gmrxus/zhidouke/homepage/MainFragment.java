@@ -14,7 +14,6 @@ import com.gmrxus.zhidouke.adapter.MainViewPagerAdapter;
 import com.gmrxus.zhidouke.douban.DoubanFragment;
 import com.gmrxus.zhidouke.guoke.GuokeFragment;
 import com.gmrxus.zhidouke.zhihu.ZhihuFragment;
-import com.gmrxus.zhidouke.zhihu.ZhihuPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +30,6 @@ public class MainFragment extends Fragment {
     private ZhihuFragment mZhihuFragment;
     private DoubanFragment mDoubanFragment;
     private GuokeFragment mGuokeFragment;
-    private ZhihuPresenter mZhihuPresenter;
     private List<Fragment> mFragments = new ArrayList<>();
 
     @Override

@@ -11,39 +11,43 @@ import java.util.List;
  */
 
 public interface DoubanContract {
-    interface View extends BaseView<Presenter> {
-        void showResult(List<Douban> doubanList);
+  interface View extends BaseView<Presenter> {
+    void showResult(List<Douban> doubanList);
 
-        void startLoading();
+    void startLoading();
 
-        void stopLoading();
+    void stopLoading();
 
-        void showError();
+    void showError(String msg);
+
+    void itemClick();
+  }
+
+  interface Presenter extends BasePresenter {
+    void showContent(Douban.PostsBean bean);
+
+    void setModel();
+
+    void detach();
+
+    Douban load(String date, boolean isRefresh);
+
+    void loadMore();
+
+    void refresh();
+  }
+
+  interface Model {
+    void getForNet(String date, ResultListener listener);
+
+    void storeDB(Douban douban);
+
+    Douban getForDB(long date);
+
+    interface ResultListener {
+      void onError();
+
+      void onResponse(Douban douban);
     }
-
-    interface Presenter extends BasePresenter {
-        void setModel();
-
-        void dettach();
-
-        Douban load(long date,boolean isRefresh);
-
-        void loadMore(long thisDate );
-
-        void refresh();
-    }
-
-    interface Model {
-        void getForNet(long date, ResultListener listener);
-
-        void storeDB(Douban douban);
-
-        Douban getForDB(long date);
-
-        interface ResultListener {
-            void onError();
-
-            void onResponse(Douban douban);
-        }
-    }
+  }
 }

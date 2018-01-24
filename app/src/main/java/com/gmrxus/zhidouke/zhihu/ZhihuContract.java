@@ -1,7 +1,5 @@
 package com.gmrxus.zhidouke.zhihu;
 
-import android.os.Handler;
-
 import com.gmrxus.zhidouke.BasePresenter;
 import com.gmrxus.zhidouke.BaseView;
 import com.gmrxus.zhidouke.bean.ZhihuNews;
@@ -13,38 +11,35 @@ import java.util.List;
  */
 
 public interface ZhihuContract {
-    interface View extends BaseView<Presenter> {
-        Handler getHandler();
+  interface View extends BaseView<Presenter> {
 
-        void showContent(List<ZhihuNews> zhihuNewses);
+    void showContent(List<ZhihuNews> zhihuNewses);
 
-        void showError(String msg);
+    void showError(String msg);
 
-        void showProgress();
-
-
-        void stopRefresh();
+    void showProgress();
 
 
-        void runMainUiThread(ZhihuFragment.UiThread impl);
-    }
+    void stopRefresh();
 
-    interface Presenter extends BasePresenter {
-        void attach(View view);
 
-        void refresh();
+    void runMainUiThread(ZhihuFragment.UiThread impl);
+  }
 
-        void loadMore(String date);
+  interface Presenter extends BasePresenter {
+    void attach(View view);
 
-        void load(String date,boolean isRefresh);
+    void loadMore(String date);
 
-        void addContentForDB(String content);
+    void load(String date, boolean isRefresh);
 
-        boolean getContentForNetAndAddDB(String date);
+    void addContentForDB(String content);
 
-        String getContentForDB(String date);
+    boolean getContentForNetAndAddDB(String date);
 
-        void deAttach();
+    String getContentForDB(String date);
 
-    }
+    void deAttach();
+
+  }
 }

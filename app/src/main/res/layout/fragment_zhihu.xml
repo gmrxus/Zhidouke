@@ -14,6 +14,8 @@
 
 
         <android.support.v7.widget.RecyclerView
+            android:scrollbars="vertical"
+            android:fadeScrollbars="true"
             android:id="@+id/zhihu_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

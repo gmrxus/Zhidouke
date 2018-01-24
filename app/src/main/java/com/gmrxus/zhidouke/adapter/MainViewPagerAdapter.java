@@ -12,30 +12,30 @@ import java.util.List;
 
 public class MainViewPagerAdapter extends FragmentPagerAdapter {
 
-    private static final String TAG = "MainViewPagerAdapter";
-    private String[] titles = {"知乎日报", "豆瓣一颗", "果壳精选"};
-    private List<Fragment> mFragments;
+  private static final String TAG = "MainViewPagerAdapter";
+  private String[] titles = {"知乎日报", "豆瓣一刻", "果壳精选"};
+  private List<Fragment> mFragments;
 
-    public MainViewPagerAdapter(FragmentManager fm, List<Fragment> fragments) {
-        super(fm);
-        this.mFragments = fragments;
-    }
+  public MainViewPagerAdapter(FragmentManager fm, List<Fragment> fragments) {
+    super(fm);
+    this.mFragments = fragments;
+  }
 
-    @Override
-    public int getCount() {
-        return mFragments.size();
-    }
+  @Override
+  public int getCount() {
+    return mFragments.size();
+  }
 
-    @Override
-    public Fragment getItem(int position) {
-        return mFragments.get(position);
+  @Override
+  public Fragment getItem(int position) {
+    return mFragments.get(position);
 
-    }
+  }
 
 
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return titles[position];
-    }
+  @Override
+  public CharSequence getPageTitle(int position) {
+    return titles[position];
+  }
 
 }

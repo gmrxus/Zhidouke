@@ -2,7 +2,6 @@ package com.gmrxus.zhidouke.zhihu;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -17,8 +16,8 @@ import android.widget.LinearLayout;
 import com.gmrxus.zhidouke.R;
 import com.gmrxus.zhidouke.adapter.MainRecyclerViewAdapter;
 import com.gmrxus.zhidouke.bean.ZhihuNews;
+import com.gmrxus.zhidouke.content.ContentActivity;
 import com.gmrxus.zhidouke.util.DateUtil;
-import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -88,11 +87,11 @@ public class ZhihuFragment extends Fragment implements ZhihuContract.View, Swipe
     });
 
     mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.srl);
-    mSwipeRefreshLayout.setColorSchemeResources(
-        R.color.colorAccent,
-        R.color.colorPrimary,
-        R.color.colorPrimaryDark
-    );
+//    mSwipeRefreshLayout.setColorSchemeResources(
+//        R.color.colorAccent,
+//        R.color.colorPrimary,
+//        R.color.colorPrimaryDark
+//    );
     mSwipeRefreshLayout.setOnRefreshListener(this);
   }
 
@@ -109,10 +108,6 @@ public class ZhihuFragment extends Fragment implements ZhihuContract.View, Swipe
     this.mPresenter = presenter;
   }
 
-  @Override
-  public Handler getHandler() {
-    return null;
-  }
 
   @Override
   public void showContent(List<ZhihuNews> zhihuNewses) {
@@ -120,8 +115,8 @@ public class ZhihuFragment extends Fragment implements ZhihuContract.View, Swipe
       mAdapter = new MainRecyclerViewAdapter(getContext(), zhihuNewses);
       mAdapter.setOnItemClickListener(new MainRecyclerViewAdapter.OnItemClickListener() {
         @Override
-        public void onItemClick(View view, int position) {
-          Logger.e(position+"");
+        public void onItemClick(View view, ZhihuNews.StoriesBean story, int position) {
+          ContentActivity.in2Activity(getActivity(), String.valueOf(story.getId()), 1);
         }
       });
       mRecyclerView.setAdapter(mAdapter);
@@ -147,6 +142,7 @@ public class ZhihuFragment extends Fragment implements ZhihuContract.View, Swipe
   public void stopRefresh() {
     mSwipeRefreshLayout.setRefreshing(false);
   }
+
 
   @Override
   public void onDestroy() {

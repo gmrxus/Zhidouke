@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 
+import com.gmrxus.zhidouke.BaseActivity;
 import com.gmrxus.zhidouke.R;
 import com.gmrxus.zhidouke.bean.Type;
 
@@ -13,7 +13,7 @@ import com.gmrxus.zhidouke.bean.Type;
  * Created by Gmrxus on 2018/1/5.
  */
 
-public class ContentActivity extends AppCompatActivity {
+public class ContentActivity extends BaseActivity {
   public static final String ID = "url";
   public static final String PAGE_TYPE = "type";
   private ContentFragment fragment;

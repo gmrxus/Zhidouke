@@ -25,12 +25,13 @@ public class DBUtil extends SQLiteOpenHelper {
       "date text unique," +//唯一字段
       "getTime text" +
       ")";
-  private String createGuokeSql = "create table if not exists Guokr("
-      + "id integer primary key autoincrement,"
-      + "guokr_id integer not null,"
-      + "guokr_news text,"
-      + "guokr_time real,"
-      + "guokr_content text)";
+  private String createGuokeSql = "create table if not exists Guokr(" +
+      "id integer primary key autoincrement," +
+      "content text," +
+      "date text unique," +//唯一字段
+      "getTime text" +
+      ")";
+
 
   public DBUtil(Context context) {
     super(context, DB_NAME, null, DB_VERSION);

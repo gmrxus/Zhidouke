@@ -21,6 +21,8 @@ public interface DoubanContract {
     void showError(String msg);
 
     void itemClick();
+
+    void showErrorL(String msg);
   }
 
   interface Presenter extends BasePresenter {

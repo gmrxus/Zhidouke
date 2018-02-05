@@ -59,32 +59,7 @@ public class ZhihuFragment extends Fragment implements ZhihuContract.View, Swipe
     final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
     mRecyclerView.setHasFixedSize(true);
     mRecyclerView.setLayoutManager(linearLayoutManager);
-    mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-      @Override
-      public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-        super.onScrollStateChanged(recyclerView, newState);
-        LinearLayoutManager lm = (LinearLayoutManager) recyclerView.getLayoutManager();
-        int lastItemPosition = lm.findLastVisibleItemPosition();
-        if (lastItemPosition == mAdapter.getItemCount() - 1 && newState == RecyclerView.SCROLL_STATE_IDLE) {
-          mNonceDate = DateUtil.getLastDate(mNonceDate);
-          new CountDownTimer(500, 500) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-            }
 
-            @Override
-            public void onFinish() {
-              mPresenter.loadMore(mNonceDate);
-            }
-          }.start();
-        }
-      }
-
-      @Override
-      public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-        super.onScrolled(recyclerView, dx, dy);
-      }
-    });
 
     mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.srl);
 //    mSwipeRefreshLayout.setColorSchemeResources(
@@ -111,6 +86,7 @@ public class ZhihuFragment extends Fragment implements ZhihuContract.View, Swipe
 
   @Override
   public void showContent(List<ZhihuNews> zhihuNewses) {
+
     if (mAdapter == null) {
       mAdapter = new MainRecyclerViewAdapter(getContext(), zhihuNewses);
       mAdapter.setOnItemClickListener(new MainRecyclerViewAdapter.OnItemClickListener() {
@@ -125,6 +101,32 @@ public class ZhihuFragment extends Fragment implements ZhihuContract.View, Swipe
       mAdapter.addContent(zhihuNewses);
       mAdapter.notifyDataSetChanged();
     }
+    mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+      @Override
+      public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+        super.onScrollStateChanged(recyclerView, newState);
+        LinearLayoutManager lm = (LinearLayoutManager) recyclerView.getLayoutManager();
+        int lastItemPosition = lm.findLastVisibleItemPosition();
+        if (lastItemPosition == mAdapter.getItemCount() - 1 && newState == RecyclerView.SCROLL_STATE_IDLE) {
+          mNonceDate = DateUtil.getLastDate(mNonceDate);
+          new CountDownTimer(500, 500) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+            }
+
+            @Override
+            public void onFinish() {
+              mPresenter.loadMore(mNonceDate);
+            }
+          }.start();
+        }
+      }
+
+      @Override
+      public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+        super.onScrolled(recyclerView, dx, dy);
+      }
+    });
   }
 
   @Override

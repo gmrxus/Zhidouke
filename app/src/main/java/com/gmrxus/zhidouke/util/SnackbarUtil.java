@@ -8,7 +8,22 @@ import android.view.View;
  */
 
 public class SnackbarUtil {
+
+  private static Snackbar sMake;
+
   public static void textSnackbar(View pView, String msg) {
-    Snackbar.make(pView, msg, Snackbar.LENGTH_SHORT).show();
+    sMake = Snackbar.make(pView, msg, Snackbar.LENGTH_SHORT);
+    sMake.show();
+  }
+
+  public static void textSnackbarL(View pView, String msg) {
+    sMake = Snackbar.make(pView, msg, Snackbar.LENGTH_LONG);
+    sMake.show();
+  }
+
+  public static void hide() {
+    if (sMake != null) {
+      sMake.dismiss();
+    }
   }
 }

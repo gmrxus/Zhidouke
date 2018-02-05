@@ -1,10 +1,14 @@
 package com.gmrxus.zhidouke.content;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.webkit.WebView;
 
 import com.gmrxus.zhidouke.R;
@@ -41,7 +45,7 @@ public class ContentPresenter implements ContentContract.Presenter {
   private ZhihuInfoBean mZhihuBean;
   private DoubanStory mDoubanBean;
   private String mBeanJson = "";
-  private String mBeanId = "";
+  private String mContentUrl;
 
   public ContentPresenter(String id, Context context, ContentContract.View view, Type type) {
     this.type = type;
@@ -75,7 +79,15 @@ public class ContentPresenter implements ContentContract.Presenter {
 
   @Override
   public void openInBrowser() {
-
+    if (TextUtils.isEmpty(mContentUrl)) {
+      mView.showMsg("页面没有正确打开");
+      return;
+    }
+    Intent intent = new Intent();
+    intent.setAction(Intent.ACTION_VIEW);
+    Uri uri = Uri.parse(mContentUrl);
+    intent.setData(uri);
+    mContext.startActivity(intent);
   }
 
   @Override
@@ -119,6 +131,7 @@ public class ContentPresenter implements ContentContract.Presenter {
         mView.setTitle(mZhihuBean.getTitle());
         mView.setImgRus("图片:" + mZhihuBean.getImage_source());
         mView.stopLoading();
+        mContentUrl = mZhihuBean.getShare_url();
       }
 
       @Override
@@ -142,6 +155,7 @@ public class ContentPresenter implements ContentContract.Presenter {
                 "https://img3.doubanio.com/lpic/s29441950.jpg");
         mView.setTitle(mDoubanBean.getTitle());
         mView.stopLoading();
+        mContentUrl = mDoubanBean.getUrl();
       }
 
       @Override
@@ -159,6 +173,7 @@ public class ContentPresenter implements ContentContract.Presenter {
         mView.showResult(result, SpUtil.get(mContext, SpUtil.SpKey.GUOKE_IMG, ""));
         mView.setTitle(SpUtil.get(mContext, SpUtil.SpKey.GUOKE_TITLE, ""));
         mView.stopLoading();
+        mContentUrl = mId;
       }
 
       @Override
@@ -171,6 +186,10 @@ public class ContentPresenter implements ContentContract.Presenter {
 
   @Override
   public boolean isBookmarks() {
+    if (type == GUOKE_CONTENT) {
+      // TODO: 2018/1/25 果壳的收藏功能
+      return false;
+    }
     ArrayList<DbBean> results = (ArrayList<DbBean>) mModel.queryForDb(type, mId);
     if (!results.isEmpty()) {
       for (DbBean bean : results) {
@@ -180,5 +199,32 @@ public class ContentPresenter implements ContentContract.Presenter {
       }
     }
     return false;
+  }
+
+  @Override
+  public void copyLink() {
+    if (TextUtils.isEmpty(mContentUrl)) {
+      mView.showMsg("页面没有正确打开");
+      return;
+    }
+    ClipboardManager cm = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+    ClipData cd = cm.getPrimaryClip();
+    cd.addItem(new ClipData.Item(mContentUrl));
+    cm.setPrimaryClip(cd);
+    mView.showMsg("已复制到剪切板");
+  }
+
+  @Override
+  public void share() {
+    if (TextUtils.isEmpty(mContentUrl)) {
+      mView.showMsg("页面没有正确打开");
+      return;
+    }
+    Intent intent = new Intent();
+    intent.setAction(Intent.ACTION_SEND);
+    intent.setType("text/plain");
+    intent.putExtra(Intent.EXTRA_TEXT, mContentUrl);
+    mContext.startActivity(Intent.createChooser(intent, "分享至"));
+
   }
 }

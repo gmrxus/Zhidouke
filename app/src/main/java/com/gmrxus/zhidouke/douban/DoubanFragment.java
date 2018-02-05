@@ -61,33 +61,7 @@ public class DoubanFragment extends Fragment implements DoubanContract.View, Swi
 //    DividerItemDecoration decor = new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL);
 //    decor.setDrawable(ContextCompat.getDrawable(getActivity(),R.drawable.ba_item_line));
     mRecyclerView.addItemDecoration(new MyDividerItemDecoration(getActivity(), MyDividerItemDecoration.VERTICAL_LIST));
-    mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-      @Override
-      public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-        super.onScrollStateChanged(recyclerView, newState);
-        LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-        int position = layoutManager.findLastVisibleItemPosition();
-        if (newState == 0 && position == mAdapter.getItemCount() - 1) {
-          new CountDownTimer(1000, 1000) {
 
-            @Override
-            public void onTick(long millisUntilFinished) {
-
-            }
-
-            @Override
-            public void onFinish() {
-              mPresenter.loadMore();
-            }
-          }.start();
-        }
-      }
-
-      @Override
-      public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-        super.onScrolled(recyclerView, dx, dy);
-      }
-    });
 
     mRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.douban_swipeRefreshLayout);
     mRecyclerView.setHasFixedSize(true);
@@ -121,6 +95,33 @@ public class DoubanFragment extends Fragment implements DoubanContract.View, Swi
         ContentActivity.in2Activity(getActivity(), String.valueOf(bean.getId()), 2);
       }
     });
+    mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+      @Override
+      public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+        super.onScrollStateChanged(recyclerView, newState);
+        LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        int position = layoutManager.findLastVisibleItemPosition();
+        if (newState == 0 && position == mAdapter.getItemCount() - 1) {
+          new CountDownTimer(1000, 1000) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+              mPresenter.loadMore();
+            }
+          }.start();
+        }
+      }
+
+      @Override
+      public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+        super.onScrolled(recyclerView, dx, dy);
+      }
+    });
   }
 
   @Override
@@ -144,6 +145,11 @@ public class DoubanFragment extends Fragment implements DoubanContract.View, Swi
   }
 
   @Override
+  public void showErrorL(String msg) {
+    SnackbarUtil.textSnackbarL(pView, msg);
+  }
+
+  @Override
   public void onDetach() {
     super.onDetach();
     mPresenter.detach();
@@ -152,5 +158,9 @@ public class DoubanFragment extends Fragment implements DoubanContract.View, Swi
   @Override
   public void onRefresh() {
     mPresenter.refresh();
+  }
+
+  public void hideErrorL() {
+    SnackbarUtil.hide();
   }
 }

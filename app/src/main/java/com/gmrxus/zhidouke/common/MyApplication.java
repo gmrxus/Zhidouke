@@ -10,6 +10,7 @@ import com.android.volley.toolbox.Volley;
 import com.gmrxus.zhidouke.db.DBUtil;
 import com.idescout.sql.SqlScoutServer;
 import com.orhanobut.logger.Logger;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 
@@ -30,6 +31,7 @@ public class MyApplication extends Application {
   public void onCreate() {
     super.onCreate();
     context = this.getApplicationContext();
+    MobclickAgent.setScenarioType(context, MobclickAgent.EScenarioType.E_UM_NORMAL);
     dbUtil = new DBUtil(context);
     SQLiteDatabase db = dbUtil.getWritableDatabase();
     sRequestQueue = Volley.newRequestQueue(this);

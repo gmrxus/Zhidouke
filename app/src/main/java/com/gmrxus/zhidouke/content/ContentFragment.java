@@ -92,12 +92,6 @@ public class ContentFragment extends Fragment implements ContentContract.View {
     //是否是无图模式浏览
     wv.getSettings().setBlockNetworkImage(SpUtil.get(getActivity(), SpUtil.SpKey.CONFIG_NOIMG, false));
 
-//    if (SpUtil.get(getActivity(), SpUtil.SpKey.CONFIG_INLAY_BROWSER, true)) {
-
-//    }else {
-
-//    }
-
 
   }
 
@@ -138,6 +132,7 @@ public class ContentFragment extends Fragment implements ContentContract.View {
       srl.setRefreshing(false);
     }
   }
+
 
   @Override
   public void showMsg(String errorMsg) {
@@ -196,6 +191,27 @@ public class ContentFragment extends Fragment implements ContentContract.View {
       public void onClick(View v) {
         dialog.dismiss();
         mPresenter.addAndDelBookmarks();
+      }
+    });
+    view.findViewById(R.id.layout_copy_link).setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        dialog.dismiss();
+        mPresenter.copyLink();
+      }
+    });
+    view.findViewById(R.id.layout_open_in_browser).setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        dialog.dismiss();
+        mPresenter.openInBrowser();
+      }
+    });
+    view.findViewById(R.id.layout_share).setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        dialog.dismiss();
+        mPresenter.share();
       }
     });
     ImageView iv = (ImageView) view.findViewById(R.id.iv_dialog_bookmark);

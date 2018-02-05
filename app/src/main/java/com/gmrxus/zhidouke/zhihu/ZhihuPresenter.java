@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.gmrxus.zhidouke.R;
 import com.gmrxus.zhidouke.bean.ZhihuNews;
 import com.gmrxus.zhidouke.common.MyApplication;
 import com.gmrxus.zhidouke.common.Urls;
@@ -65,7 +66,7 @@ public class ZhihuPresenter implements ZhihuContract.Presenter {
       @Override
       public void onFailure(IOException e) {
         mView.stopRefresh();
-        mView.showError("网络错误");
+        mView.showError(mContext.getResources().getString(R.string.net_error));
         Log.e(TAG, "onFailure: " + e);
       }
 

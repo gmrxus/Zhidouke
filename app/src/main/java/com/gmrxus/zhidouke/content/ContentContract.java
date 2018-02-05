@@ -46,6 +46,10 @@ public interface ContentContract {
     void addAndDelBookmarks();
 
     boolean isBookmarks();
+
+    void copyLink();
+
+    void share();
   }
 
   interface Model {

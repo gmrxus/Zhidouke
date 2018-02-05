@@ -3,6 +3,7 @@ package com.gmrxus.zhidouke.douban;
 import android.content.Context;
 import android.content.Intent;
 
+import com.gmrxus.zhidouke.R;
 import com.gmrxus.zhidouke.bean.Douban;
 import com.gmrxus.zhidouke.content.ContentActivity;
 import com.gmrxus.zhidouke.util.DateUtil;
@@ -77,7 +78,7 @@ public class DoubanPresenter implements DoubanContract.Presenter {
         }
       });
     } else {
-      mView.showError("网络连接失败,请检查网络");
+      mView.showError(mContext.getResources().getString(R.string.net_error));
     }
     return null;
   }

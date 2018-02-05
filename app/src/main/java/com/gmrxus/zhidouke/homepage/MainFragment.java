@@ -23,56 +23,62 @@ import java.util.List;
  */
 
 public class MainFragment extends Fragment {
-    private static final String TAG = "MainFragment";
+  private static final String TAG = "MainFragment";
 
-    private ViewPager vp;
-    private TabLayout tabLayout;
-    private ZhihuFragment mZhihuFragment;
-    private DoubanFragment mDoubanFragment;
-    private GuokeFragment mGuokeFragment;
-    private List<Fragment> mFragments = new ArrayList<>();
+  private ViewPager vp;
+  private TabLayout tabLayout;
+  private ZhihuFragment mZhihuFragment;
+  private DoubanFragment mDoubanFragment;
+  private GuokeFragment mGuokeFragment;
+  private List<Fragment> mFragments = new ArrayList<>();
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mZhihuFragment = new ZhihuFragment();
-        mDoubanFragment = new DoubanFragment();
-        mGuokeFragment = new GuokeFragment();
-        mFragments.add(mZhihuFragment);
-        mFragments.add(mDoubanFragment);
-        mFragments.add(mGuokeFragment);
-    }
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    mZhihuFragment = new ZhihuFragment();
+    mDoubanFragment = new DoubanFragment();
+    mGuokeFragment = new GuokeFragment();
+    mFragments.add(mZhihuFragment);
+    mFragments.add(mDoubanFragment);
+    mFragments.add(mGuokeFragment);
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle
-            savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        initView(rootView);
-        return rootView;
+  }
 
-    }
+  @Nullable
+  @Override
+  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle
+      savedInstanceState) {
+    View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+    initView(rootView);
+    return rootView;
 
-    private void initView(View rootView) {
-        vp = (ViewPager) rootView.findViewById(R.id.vp);
-        tabLayout = (TabLayout) rootView.findViewById(R.id.tabLayout);
-        vp.setOffscreenPageLimit(3);
-        vp.setAdapter(new MainViewPagerAdapter(getChildFragmentManager(), mFragments));
-        vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+  }
 
-            }
+  private void initView(View rootView) {
+    vp = (ViewPager) rootView.findViewById(R.id.vp);
+    tabLayout = (TabLayout) rootView.findViewById(R.id.tabLayout);
+    vp.setOffscreenPageLimit(3);
+    vp.setAdapter(new MainViewPagerAdapter(getChildFragmentManager(), mFragments));
+    vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+      @Override
+      public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            @Override
-            public void onPageSelected(int position) {
-            }
+      }
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
+      @Override
+      public void onPageSelected(int position) {
+        if (position == 1) {
+          mDoubanFragment.showErrorL("官方已停止运营\"豆瓣一刻\"");
+        } else {
+          mDoubanFragment.hideErrorL();
+        }
+      }
 
-            }
-        });
-        tabLayout.setupWithViewPager(vp);
-    }
+      @Override
+      public void onPageScrollStateChanged(int state) {
+
+      }
+    });
+    tabLayout.setupWithViewPager(vp);
+  }
 }

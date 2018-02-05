@@ -82,8 +82,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
       case R.id.menu_setting:
         startActivity(new Intent(this, SettingActivity.class));
         break;
-      case R.id.menu_about:
-        break;
+//      case R.id.menu_about:
+//        break;
     }
     drawableLayout.closeDrawer(navigation);
     return true;
@@ -108,6 +108,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     ft.commit();
     toolbar.setTitle("知豆壳");
   }
+
 
   private void showBookmarkFragment() {
     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

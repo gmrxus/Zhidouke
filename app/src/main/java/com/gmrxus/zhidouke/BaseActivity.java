@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.gmrxus.zhidouke.common.MyApplication;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by Gmrxus on 2018/1/17.
@@ -43,11 +44,13 @@ public class BaseActivity extends AppCompatActivity {
   protected void onResume() {
     super.onResume();
     Log.d(TAG, "onResume: ");
+    MobclickAgent.onResume(this);
   }
 
   @Override
   protected void onPause() {
     super.onPause();
+    MobclickAgent.onPause(this);
   }
 
   @Override

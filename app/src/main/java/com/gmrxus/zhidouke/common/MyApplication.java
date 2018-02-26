@@ -19,43 +19,43 @@ import java.util.ArrayList;
  */
 
 public class MyApplication extends Application {
-  private static final String TAG = "MyApplication";
-  public static Context context;
-  public static DBUtil dbUtil;
-  public static RequestQueue sRequestQueue;
-  public static int doubanDelayDate = 0;
-  private ArrayList<Activity> mActivities = new ArrayList<>();
+    private static final String TAG = "MyApplication";
+    public static Context context;
+    public static DBUtil dbUtil;
+    public static RequestQueue sRequestQueue;
+    public static int doubanDelayDate = 0;
+    private ArrayList<Activity> mActivities = new ArrayList<>();
 
-  @Override
+    @Override
 
-  public void onCreate() {
-    super.onCreate();
-    context = this.getApplicationContext();
-    MobclickAgent.setScenarioType(context, MobclickAgent.EScenarioType.E_UM_NORMAL);
-    dbUtil = new DBUtil(context);
-    SQLiteDatabase db = dbUtil.getWritableDatabase();
-    sRequestQueue = Volley.newRequestQueue(this);
-    SqlScoutServer.create(this, getPackageName());
+    public void onCreate() {
+        super.onCreate();
+        context = this.getApplicationContext();
+        MobclickAgent.setScenarioType(context, MobclickAgent.EScenarioType.E_UM_NORMAL);
+        dbUtil = new DBUtil(context);
+        SQLiteDatabase db = dbUtil.getWritableDatabase();
+        sRequestQueue = Volley.newRequestQueue(this);
+        SqlScoutServer.create(this, getPackageName());
 
-  }
-
-  public void addActivity(Activity activity) {
-    mActivities.add(activity);
-  }
-
-  public void removeActivity(Activity activity) {
-    mActivities.remove(activity);
-    if (mActivities.size() == 0) {
-      Logger.d("db closed");
-      dbUtil.close();
     }
-  }
 
-  public void removeAll() {
-    for (Activity activity : mActivities) {
-      mActivities.remove(activity);
+    public void addActivity(Activity activity) {
+        mActivities.add(activity);
     }
-  }
+
+    public void removeActivity(Activity activity) {
+        mActivities.remove(activity);
+        if (mActivities.size() == 0) {
+            Logger.d("db closed");
+            dbUtil.close();
+        }
+    }
+
+    public void removeAll() {
+        for (Activity activity : mActivities) {
+            mActivities.remove(activity);
+        }
+    }
 
 
 }
